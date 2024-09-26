@@ -1,4 +1,6 @@
 package ExecutorService;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.*;
 
 public class MyFuture {
@@ -10,15 +12,21 @@ public class MyFuture {
             return "Hello";
         };
 
-        Future<String> submit = executorService.submit(hello);
-        System.out.println("Started!");
-        
-        submit.cancel(true);
-        System.out.println(submit.isDone());
-        submit.get(); // 블로킹 콜
+        Callable<String> java = () -> {
+            Thread.sleep(3000L);
+            return "Java";
+        };
 
-        System.out.println("End");
-        System.out.println(submit.isDone());
+        Callable<String> eric = () -> {
+            Thread.sleep(1000L);
+            return "Eric";
+        };
+
+        List<Future<String>> futures = executorService.invokeAll(Arrays.asList(hello, java, eric));
+        for(Future<String> future : futures) {
+            System.out.println(future.get());
+        }
+
         executorService.shutdown();
     }
 }
