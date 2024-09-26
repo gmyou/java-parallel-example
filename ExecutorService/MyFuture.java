@@ -1,11 +1,10 @@
 package ExecutorService;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.*;
 
 public class MyFuture {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
 
         Callable<String> hello = () -> {
             Thread.sleep(2000L);
@@ -22,10 +21,8 @@ public class MyFuture {
             return "Eric";
         };
 
-        List<Future<String>> futures = executorService.invokeAll(Arrays.asList(hello, java, eric));
-        for(Future<String> future : futures) {
-            System.out.println(future.get());
-        }
+		String s = executorService.invokeAny(Arrays.asList(hello, java, eric));
+        System.out.println(s);
 
         executorService.shutdown();
     }
