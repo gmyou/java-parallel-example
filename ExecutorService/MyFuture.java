@@ -13,6 +13,7 @@ public class MyFuture {
         Future<String> submit = executorService.submit(hello);
         System.out.println("Started!");
         
+        submit.cancel(true);
         System.out.println(submit.isDone());
         submit.get(); // 블로킹 콜
 
