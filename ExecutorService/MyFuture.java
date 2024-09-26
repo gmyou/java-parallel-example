@@ -13,10 +13,11 @@ public class MyFuture {
         Future<String> submit = executorService.submit(hello);
         System.out.println("Started!");
         
+        System.out.println(submit.isDone());
         submit.get(); // 블로킹 콜
 
         System.out.println("End");
-
+        System.out.println(submit.isDone());
         executorService.shutdown();
     }
 }
